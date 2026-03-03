@@ -1,14 +1,14 @@
-package com.example.myapplication
+package com.example.languageapp
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import com.example.myapplication.AppNavigation.AppNavigation
-import com.example.myapplication.language.LanguageViewModel
-import com.example.myapplication.language.ui.LanguageScreen
-import com.example.myapplication.ui.theme.MyApplicationTheme
+import com.example.languageapp.AppNavigation.AppNavigation
+import com.example.languageapp.language.LanguageViewModel
+import com.example.languageapp.language.ui.LanguageScreen
+import com.example.languageapp.ui.theme.MyApplicationTheme
 
 
 class MainActivity : ComponentActivity() {

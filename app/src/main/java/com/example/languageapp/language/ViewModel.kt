@@ -1,10 +1,9 @@
-package com.example.myapplication.language
+package com.example.languageapp.language
 
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
-import com.example.myapplication.language.arch.LanguageAction
-import com.example.myapplication.language.arch.LanguageState
+import com.example.languageapp.language.arch.LanguageAction
+import com.example.languageapp.language.arch.LanguageState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

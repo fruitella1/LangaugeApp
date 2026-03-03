@@ -1,4 +1,4 @@
-package com.example.myapplication.AppNavigation
+package com.example.languageapp.AppNavigation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
@@ -10,8 +10,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.myapplication.language.ui.HomeScreen
-import com.example.myapplication.language.ui.LanguageScreen
+import com.example.languageapp.language.ui.HomeScreen
+import com.example.languageapp.language.ui.LanguageScreen
 
 @Composable
 fun AppNavigation() {

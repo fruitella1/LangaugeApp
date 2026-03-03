@@ -1,4 +1,4 @@
-package com.example.myapplication.language.ui
+package com.example.languageapp.language.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,8 +12,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.myapplication.language.LanguageViewModel
-import com.example.myapplication.language.arch.LanguageAction
+import com.example.languageapp.language.LanguageViewModel
+import com.example.languageapp.language.arch.LanguageAction
 
 
 @Composable

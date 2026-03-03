@@ -1,4 +1,4 @@
-package com.example.myapplication.AppNavigation
+package com.example.languageapp.AppNavigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
