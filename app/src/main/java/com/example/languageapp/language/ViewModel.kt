@@ -137,7 +137,7 @@ class LanguageViewModel : ViewModel() {
                 val text = action.textChanged
                 val filtered = if (text.isEmpty()) allLanguages
                 else allLanguages.filter { it.contains(text, ignoreCase = true) }
-                _state.value = LanguageState(text = text, languages = filtered.toMutableList() )
+                _state.value = LanguageState(text = text, languages = filtered )
             }
         }
     }

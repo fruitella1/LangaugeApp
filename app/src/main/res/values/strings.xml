@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Language App</string>
+    <string name="welcome_home">Welcome to home screen</string>
 </resources>

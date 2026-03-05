@@ -1,4 +1,4 @@
-package com.example.languageapp.AppNavigation
+package com.example.languageapp.appnavigation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
@@ -10,11 +10,14 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.languageapp.language.LanguageViewModel
 import com.example.languageapp.language.ui.HomeScreen
 import com.example.languageapp.language.ui.LanguageScreen
 
+const val HomeSc = "HomeScreen"
+const val LanguageSc = "LanguageScreen"
 @Composable
-fun AppNavigation() {
+fun AppNavigation(viewModel: LanguageViewModel) {
     val navController = rememberNavController()
     Scaffold(
         bottomBar = { BottomBarNavigation(navController) },
@@ -25,11 +28,11 @@ fun AppNavigation() {
             startDestination = "HomeScreen",
             modifier = Modifier.padding(paddingValues)
         ) {
-            composable("HomeScreen") {
+            composable(HomeSc) {
                 HomeScreen()
             }
-            composable("LanguageScreen") {
-                LanguageScreen(viewModel() )
+            composable(LanguageSc) {
+                LanguageScreen(viewModel )
             }
         }
     }

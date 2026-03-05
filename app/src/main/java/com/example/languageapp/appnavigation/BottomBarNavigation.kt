@@ -1,4 +1,4 @@
-package com.example.languageapp.AppNavigation
+package com.example.languageapp.appnavigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
@@ -12,23 +12,27 @@ import androidx.compose.runtime.getValue
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 
+const val LanguageScr = "LanguageScreen"
+const val HomeScr = "HomeScreen"
+const val Home = "Home"
+const val Search = "Search"
 @Composable
-fun BottomBarNavigation(navController: NavHostController) {
+fun BottomBarNavigation(navController: NavHostController): Unit {
     NavigationBar {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
 
         NavigationBarItem(
-            icon = { Icon(Icons.Default.Home, contentDescription = "Home") },
-            label = { Text("Home") },
-            selected = currentRoute == "HomeScreen",
-            onClick = { navController.navigate("HomeScreen") }
+            icon = { Icon(Icons.Default.Home, contentDescription = Home) },
+            label = { Text(Home) },
+            selected = currentRoute == HomeScr,
+            onClick = { navController.navigate(HomeScr) }
         )
         NavigationBarItem(
-            icon = { Icon(Icons.Default.Search, contentDescription = "Search") },
-            label = { Text("Search") },
-            selected = currentRoute == "LanguageScreen",
-            onClick = { navController.navigate("LanguageScreen") }
+            icon = { Icon(Icons.Default.Search, contentDescription = Search) },
+            label = { Text(Search) },
+            selected = currentRoute == LanguageScr,
+            onClick = { navController.navigate(LanguageScr) }
         )
     }
 }

@@ -5,15 +5,16 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import com.example.languageapp.AppNavigation.AppNavigation
+import com.example.languageapp.appnavigation.AppNavigation
 import com.example.languageapp.language.LanguageViewModel
 import com.example.languageapp.language.ui.LanguageScreen
 import com.example.languageapp.ui.theme.MyApplicationTheme
 
 
 class MainActivity : ComponentActivity() {
+    private  val viewModel: LanguageViewModel by viewModels()
 
-    public val viewModel by viewModels<LanguageViewModel>()
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,8 +22,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MyApplicationTheme {
-                LanguageScreen(viewModel)
-                AppNavigation()
+                AppNavigation(viewModel)
             }
         }
     }

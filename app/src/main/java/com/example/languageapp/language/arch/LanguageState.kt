@@ -4,5 +4,5 @@ import androidx.compose.runtime.mutableStateListOf
 
 data class LanguageState(
     val text: String = "",
-    val languages: MutableList<String> = mutableStateListOf()
+    val languages: List<String> = emptyList()
 )
