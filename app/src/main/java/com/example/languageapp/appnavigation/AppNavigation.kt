@@ -14,10 +14,13 @@ import com.example.languageapp.language.LanguageViewModel
 import com.example.languageapp.language.ui.HomeScreen
 import com.example.languageapp.language.ui.LanguageScreen
 
-const val HomeSc = "HomeScreen"
-const val LanguageSc = "LanguageScreen"
+const val LANGUAGE_SCREEN = "LanguageScreen"
+const val HOME_SCREEN = "HomeScreen"
+const val HOME = "Home"
+const val SEARCH = "Search"
+
 @Composable
-fun AppNavigation(viewModel: LanguageViewModel) {
+fun AppNavigation() {
     val navController = rememberNavController()
     Scaffold(
         bottomBar = { BottomBarNavigation(navController) },
@@ -25,14 +28,16 @@ fun AppNavigation(viewModel: LanguageViewModel) {
     ) { paddingValues ->
         NavHost(
             navController = navController,
-            startDestination = "HomeScreen",
+            startDestination = HOME_SCREEN,
             modifier = Modifier.padding(paddingValues)
         ) {
-            composable(HomeSc) {
+            composable(HOME_SCREEN) {
                 HomeScreen()
             }
-            composable(LanguageSc) {
-                LanguageScreen(viewModel )
+
+            composable(LANGUAGE_SCREEN) {
+                val viewModel: LanguageViewModel = viewModel()
+                LanguageScreen(viewModel)
             }
         }
     }

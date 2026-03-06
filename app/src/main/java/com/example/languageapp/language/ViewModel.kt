@@ -1,15 +1,15 @@
 package com.example.languageapp.language
 
-import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import com.example.languageapp.language.arch.LanguageAction
+import com.example.languageapp.language.arch.LanguageItem
 import com.example.languageapp.language.arch.LanguageState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 class LanguageViewModel : ViewModel() {
-    private val allLanguages = mutableStateListOf(
+    private val allLanguages = listOf(
         "Russian",
         "English",
         "American",
@@ -128,16 +128,30 @@ class LanguageViewModel : ViewModel() {
     )
 
     private val _state: MutableStateFlow<LanguageState> =
-        MutableStateFlow(LanguageState(text = "", languages = allLanguages))
+        MutableStateFlow(
+            LanguageState(
+                text = "",
+                languages = allLanguages.map {
+                    LanguageItem(
+                        language = it
+                    )
+                }
+            )
+        )
     val state: StateFlow<LanguageState> = _state.asStateFlow()
 
     fun onAction(action: LanguageAction) {
         when (action) {
             is LanguageAction.Language -> {
                 val text = action.textChanged
-                val filtered = if (text.isEmpty()) allLanguages
-                else allLanguages.filter { it.contains(text, ignoreCase = true) }
-                _state.value = LanguageState(text = text, languages = filtered )
+                val filtered = if (text.isEmpty()) {
+                    state.value.languages
+                } else {
+                    state.value.languages.filter {
+                        it.language.contains(text, ignoreCase = true)
+                    }
+                }
+                _state.value = LanguageState(text = text, languages = filtered)
             }
         }
     }

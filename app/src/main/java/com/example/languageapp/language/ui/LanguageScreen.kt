@@ -16,12 +16,13 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.languageapp.language.LanguageViewModel
 import com.example.languageapp.language.arch.LanguageAction
+import com.example.languageapp.language.arch.LanguageItem
 
 
 @Composable
 fun LanguageScreen(viewModel: LanguageViewModel) {
     val state by viewModel.state.collectAsState()
-    Scaffold() {paddingValues ->
+    Scaffold { paddingValues ->
         Column(modifier = Modifier.padding(paddingValues)) {
             TextField(
                 value = state.text,
@@ -37,14 +38,14 @@ fun LanguageScreen(viewModel: LanguageViewModel) {
 }
 
 @Composable
-fun LanguageList(languages: List<String>) {
+fun LanguageList(languages: List<LanguageItem>) {
     LazyColumn(modifier = Modifier.fillMaxWidth()) {
         items(
             items = languages,
-            key = { it }
-        ) { languages ->
+            key = { it.id }
+        ) { item ->
             Text(
-                text = languages
+                text = item.language
             )
         }
     }
