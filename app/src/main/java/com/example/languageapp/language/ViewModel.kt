@@ -1,5 +1,6 @@
 package com.example.languageapp.language
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import com.example.languageapp.language.arch.LanguageAction
 import com.example.languageapp.language.arch.LanguageItem
@@ -55,7 +56,6 @@ class LanguageViewModel : ViewModel() {
         "Divehi",
         "Dutch",
         "Dzongkha",
-        "English",
         "Esperanto",
         "Estonian",
         "Ewe",
@@ -127,6 +127,12 @@ class LanguageViewModel : ViewModel() {
         "Ndonga",
     )
 
+    fun saveLanguages(context: Context) {
+        val sharedPref = context.getSharedPreferences("My_languages", Context.MODE_PRIVATE)
+        sharedPref.edit().putStringSet("language_saved", allLanguages.toSet()).apply()
+        _state.value = LanguageState(languages = allLanguages.map { LanguageItem(language = it) })
+    }//упирается в передачу context в onAction
+
     private val _state: MutableStateFlow<LanguageState> =
         MutableStateFlow(
             LanguageState(
@@ -140,16 +146,16 @@ class LanguageViewModel : ViewModel() {
         )
     val state: StateFlow<LanguageState> = _state.asStateFlow()
 
-    fun onAction(action: LanguageAction) {
+    fun onAction(action: LanguageAction,context: Context) {
         when (action) {
-            is LanguageAction.Language -> {
+            is LanguageAction.LanguageValueChanged -> {
                 val text = action.textChanged
                 val filtered = if (text.isEmpty()) {
-                    state.value.languages
+                    allLanguages.map { LanguageItem(language = it) }
                 } else {
-                    state.value.languages.filter {
-                        it.language.contains(text, ignoreCase = true)
-                    }
+                    allLanguages.filter {
+                        it.contains(text, ignoreCase = true)
+                    }.map { LanguageItem(language = it) }
                 }
                 _state.value = LanguageState(text = text, languages = filtered)
             }

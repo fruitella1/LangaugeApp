@@ -19,17 +19,19 @@ fun BottomBarNavigation(navController: NavHostController) {
         val currentRoute = navBackStackEntry?.destination?.route
 
         NavigationBarItem(
-            icon = { Icon(Icons.Default.Home, contentDescription = HOME) },
-            label = { Text(HOME) },
+            icon = { Icon(imageVector = Icons.Default.Home, contentDescription = HOME) },
+            label = { Text(text = HOME) },
             selected = currentRoute == HOME_SCREEN,
             onClick = { navController.navigate(HOME_SCREEN) }
         )
         NavigationBarItem(
-            icon = { Icon(Icons.Default.Search, contentDescription = SEARCH) },
-            label = { Text(SEARCH) },
+            icon = { Icon(imageVector = Icons.Default.Search, contentDescription = SEARCH) },
+            label = { Text(text = SEARCH) },
             selected = currentRoute == LANGUAGE_SCREEN,
             onClick = { navController.navigate(LANGUAGE_SCREEN) }
         )
     }
 }
 
+const val HOME = "Home"
+const val SEARCH = "Search"

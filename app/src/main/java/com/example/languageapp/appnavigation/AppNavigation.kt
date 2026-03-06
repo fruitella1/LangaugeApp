@@ -14,11 +14,6 @@ import com.example.languageapp.language.LanguageViewModel
 import com.example.languageapp.language.ui.HomeScreen
 import com.example.languageapp.language.ui.LanguageScreen
 
-const val LANGUAGE_SCREEN = "LanguageScreen"
-const val HOME_SCREEN = "HomeScreen"
-const val HOME = "Home"
-const val SEARCH = "Search"
-
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()
@@ -42,3 +37,6 @@ fun AppNavigation() {
         }
     }
 }
+
+const val LANGUAGE_SCREEN = "LanguageScreen"
+const val HOME_SCREEN = "HomeScreen"
