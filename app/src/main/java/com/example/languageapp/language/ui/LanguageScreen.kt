@@ -26,18 +26,13 @@ import com.example.languageapp.language.arch.LanguageItem
 @Composable
 fun LanguageScreen(viewModel: LanguageViewModel) {
     val state by viewModel.state.collectAsState()
-    val context = LocalContext.current
-    LaunchedEffect(Unit) {
-        viewModel.saveLanguages(context)
-    }
     Scaffold { paddingValues ->
         Column(modifier = Modifier.padding(paddingValues)) {
             TextField(
                 value = state.text,
                 onValueChange = {
                     viewModel.onAction(
-                        LanguageAction.LanguageValueChanged(textChanged = it),
-                        context
+                        LanguageAction.LanguageValueChanged(textChanged = it)
                     )
                 }
             )

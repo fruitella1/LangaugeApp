@@ -14,8 +14,7 @@ fun HomeScreen() {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
-    )
-    {
+    ) {
         Text(
             text = stringResource(id = R.string.welcome_home)
         )
