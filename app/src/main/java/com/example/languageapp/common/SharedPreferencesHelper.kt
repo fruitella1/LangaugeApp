@@ -1,14 +1,15 @@
 package com.example.languageapp.common
 
 import android.content.Context
+import androidx.core.content.edit
 
 class SharedPreferencesHelper(private val context: Context) {
-    fun getLanguages(): List<String> {
+    fun getLanguages(): Set<String> {
         val sharedPref = context.getSharedPreferences("My_languages", Context.MODE_PRIVATE)
         val saved = sharedPref.getStringSet("language_saved", null)
 
         return if (saved.isNullOrEmpty()) {
-            val defultLanguages = listOf(
+            val defaultLanguages = setOf(
                 "Russian", "English", "American", "Angolan", "Prussian",
                 "Abkhazian", "Afar", "Afrikaans", "Akan", "Albanian",
                 "Amharic", "Arabic", "Aragonese", "Armenian", "Assamese",
@@ -33,15 +34,16 @@ class SharedPreferencesHelper(private val context: Context) {
                 "Maltese", "Manx", "Maori", "Marathi", "Marshallese",
                 "Mongolian", "Nauru", "Navajo", "Ndonga"
             )
-            sharedPref.edit().putStringSet("language_saved", defultLanguages.toSet())
-            defultLanguages
+            sharedPref.edit { putStringSet("language_saved", defaultLanguages.toSet()) }
+            defaultLanguages
         } else {
-            saved.toList()
+            saved
         }
     }
-    fun setLanguages(languages: List<String>) {
+
+    fun setLanguages(languages: Set<String>) {
         val sharedPref = context.getSharedPreferences("My_languages", Context.MODE_PRIVATE)
-        sharedPref.edit().putStringSet("language_saved", languages.toSet()).apply()
+        sharedPref.edit { putStringSet("language_saved", languages.toSet()) }
     }
 }
 

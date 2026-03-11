@@ -1,7 +1,5 @@
 package com.example.languageapp.language
 
-import android.content.Context
-import android.hardware.biometrics.BiometricManager
 import androidx.lifecycle.ViewModel
 import com.example.languageapp.common.SharedPreferencesHelper
 import com.example.languageapp.language.arch.LanguageAction

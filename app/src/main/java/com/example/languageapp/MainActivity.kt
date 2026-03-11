@@ -12,7 +12,6 @@ import com.example.languageapp.ui.theme.MyApplicationTheme
 class MainActivity : ComponentActivity() {
     private val prefsHelper = SharedPreferencesHelper(this)
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
