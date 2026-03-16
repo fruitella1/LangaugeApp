@@ -1,4 +1,4 @@
-package com.example.myapplication.AppNavigation
+package com.example.languageapp.appnavigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
@@ -19,17 +19,19 @@ fun BottomBarNavigation(navController: NavHostController) {
         val currentRoute = navBackStackEntry?.destination?.route
 
         NavigationBarItem(
-            icon = { Icon(Icons.Default.Home, contentDescription = "Home") },
-            label = { Text("Home") },
-            selected = currentRoute == "HomeScreen",
-            onClick = { navController.navigate("HomeScreen") }
+            icon = { Icon(imageVector = Icons.Default.Home, contentDescription = HOME) },
+            label = { Text(text = HOME) },
+            selected = currentRoute == HOME_SCREEN,
+            onClick = { navController.navigate(HOME_SCREEN) }
         )
         NavigationBarItem(
-            icon = { Icon(Icons.Default.Search, contentDescription = "Search") },
-            label = { Text("Search") },
-            selected = currentRoute == "LanguageScreen",
-            onClick = { navController.navigate("LanguageScreen") }
+            icon = { Icon(imageVector = Icons.Default.Search, contentDescription = SEARCH) },
+            label = { Text(text = SEARCH) },
+            selected = currentRoute == LANGUAGE_SCREEN,
+            onClick = { navController.navigate(LANGUAGE_SCREEN) }
         )
     }
 }
 
+const val HOME = "Home"
+const val SEARCH = "Search"
