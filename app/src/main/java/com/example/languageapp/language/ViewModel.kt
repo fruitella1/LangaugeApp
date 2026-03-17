@@ -41,7 +41,7 @@ class LanguageViewModel(private val preferencesHelper: SharedPreferencesHelper) 
             is LanguageAction.LanguageValueChanged -> {
                 val text = action.textChanged
                 val filtered = if (text.isEmpty()) {
-                   allLanguages
+                    allLanguages
                 } else {
                     allLanguages.filter {
                         it.language.contains(text, ignoreCase = true)
@@ -53,6 +53,7 @@ class LanguageViewModel(private val preferencesHelper: SharedPreferencesHelper) 
             }
         }
     }
+
     fun languagesByApi() {
         viewModelScope.launch {
             try {
@@ -60,18 +61,14 @@ class LanguageViewModel(private val preferencesHelper: SharedPreferencesHelper) 
                     "Bearer ce1e879146cfcebb5f0b5478eefc0931"
                 )
                 allLanguages = apiLanguages.map { LanguageItem(language = it.name) }
-                val items = apiLanguages.map {
-                    LanguageItem(language = it.name)
-                }
+
                 _state.value = _state.value.copy(
                     languages = allLanguages
                 )
             } catch (e: Exception) {
-
                 val spLanguages = preferencesHelper.getLanguages()
                 allLanguages = spLanguages.map { LanguageItem(language = it) }
                 _state.value = _state.value.copy(languages = allLanguages)
-
             }
         }
     }
