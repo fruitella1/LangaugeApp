@@ -16,8 +16,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class LanguageViewModel(private val preferencesHelper: SharedPreferencesHelper) : ViewModel() {
-    private var allLanguages: List<LanguageItem> = emptyList()
+class LanguageViewModel(
+    private val preferencesHelper: SharedPreferencesHelper,
+    private var instance: RetrofitInstance = RetrofitInstance
+) : ViewModel() {
 
     private val _state: MutableStateFlow<LanguageState> =
         MutableStateFlow(
@@ -33,7 +35,7 @@ class LanguageViewModel(private val preferencesHelper: SharedPreferencesHelper) 
     val state: StateFlow<LanguageState> = _state.asStateFlow()
 
     init {
-        languagesByApi()
+        languagesGet()
     }
 
     fun onAction(action: LanguageAction) {
@@ -41,9 +43,9 @@ class LanguageViewModel(private val preferencesHelper: SharedPreferencesHelper) 
             is LanguageAction.LanguageValueChanged -> {
                 val text = action.textChanged
                 val filtered = if (text.isEmpty()) {
-                    allLanguages
+                    state.value.allLanguages
                 } else {
-                    allLanguages.filter {
+                    state.value.allLanguages.filter {
                         it.language.contains(text, ignoreCase = true)
                     }
                 }
@@ -54,22 +56,27 @@ class LanguageViewModel(private val preferencesHelper: SharedPreferencesHelper) 
         }
     }
 
-    fun languagesByApi() {
+    private fun languagesGet() {
         viewModelScope.launch {
             try {
-                val apiLanguages = RetrofitInstance.api.getLanguages(
-                    "Bearer ce1e879146cfcebb5f0b5478eefc0931"
+                val apiLanguages = instance.api.getLanguages(
+                    API_KEY
                 )
-                allLanguages = apiLanguages.map { LanguageItem(language = it.name) }
+                val newLanguageList = apiLanguages.map { LanguageItem(language = it.name) }.toMutableList()
 
                 _state.value = _state.value.copy(
-                    languages = allLanguages
+                    languages = newLanguageList,
+                    allLanguages = newLanguageList
                 )
             } catch (e: Exception) {
-                val spLanguages = preferencesHelper.getLanguages()
-                allLanguages = spLanguages.map { LanguageItem(language = it) }
-                _state.value = _state.value.copy(languages = allLanguages)
+                val spLanguages = preferencesHelper.getLanguages().map { LanguageItem(language = it) }
+                _state.value = _state.value.copy(
+                    languages = spLanguages,
+                    allLanguages = spLanguages
+                )
             }
         }
     }
 }
+
+const val API_KEY = "Bearer ce1e879146cfcebb5f0b5478eefc0931"
