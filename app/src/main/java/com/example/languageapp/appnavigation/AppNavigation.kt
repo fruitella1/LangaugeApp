@@ -15,9 +15,10 @@ import com.example.languageapp.common.ViewModelFactory
 import com.example.languageapp.language.LanguageViewModel
 import com.example.languageapp.language.ui.HomeScreen
 import com.example.languageapp.language.ui.LanguageScreen
+import com.example.languageapp.languageApi.RetrofitInstance
 
 @Composable
-fun AppNavigation(sharedPreferencesHelper: SharedPreferencesHelper) {
+fun AppNavigation(sharedPreferencesHelper: SharedPreferencesHelper, retrofitInstance: RetrofitInstance) {
     val navController = rememberNavController()
     Scaffold(
         bottomBar = { BottomBarNavigation(navController) },
@@ -33,7 +34,7 @@ fun AppNavigation(sharedPreferencesHelper: SharedPreferencesHelper) {
             }
 
             composable(LANGUAGE_SCREEN) {
-                val viewModel: LanguageViewModel = viewModel(factory = ViewModelFactory(sharedPreferencesHelper))
+                val viewModel: LanguageViewModel = viewModel(factory = ViewModelFactory(sharedPreferencesHelper, retrofitInstance))
                 LanguageScreen(viewModel)
             }
         }
