@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import com.example.languageapp.appnavigation.AppNavigation
 import com.example.languageapp.common.SharedPreferencesHelper
 import com.example.languageapp.ui.theme.MyApplicationTheme
+import com.example.languageapp.languageApi.RetrofitInstance
 
 
 class MainActivity : ComponentActivity() {
@@ -17,7 +18,10 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MyApplicationTheme {
-                AppNavigation(prefsHelper)
+                AppNavigation(
+                    sharedPreferencesHelper = prefsHelper,
+                    retrofitInstance = RetrofitInstance
+                )
             }
         }
     }

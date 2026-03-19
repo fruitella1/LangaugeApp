@@ -31,7 +31,7 @@ fun LanguageScreen(viewModel: LanguageViewModel) {
                 }
             )
             LanguageList(
-                languages = state.languages
+                languages = state.filteredLanguages
             )
         }
     }

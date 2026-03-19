@@ -6,7 +6,7 @@ import java.util.UUID
 @Immutable
 data class LanguageState(
     val text: String = "",
-    val languages: List<LanguageItem> = emptyList(),
+    val filteredLanguages: List<LanguageItem> = emptyList(),
     val allLanguages: List<LanguageItem> = emptyList()
 )
 
