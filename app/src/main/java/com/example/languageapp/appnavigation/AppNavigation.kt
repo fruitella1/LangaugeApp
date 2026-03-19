@@ -18,7 +18,7 @@ import com.example.languageapp.language.ui.LanguageScreen
 import com.example.languageapp.languageApi.RetrofitInstance
 
 @Composable
-fun AppNavigation(sharedPreferencesHelper: SharedPreferencesHelper,retrofitInstance: RetrofitInstance) {
+fun AppNavigation(sharedPreferencesHelper: SharedPreferencesHelper, retrofitInstance: RetrofitInstance) {
     val navController = rememberNavController()
     Scaffold(
         bottomBar = { BottomBarNavigation(navController) },

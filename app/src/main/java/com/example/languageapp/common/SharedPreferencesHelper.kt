@@ -42,16 +42,16 @@ class SharedPreferencesHelper(private val context: Context) {
     }
 
     fun setLanguages(languages: Set<String>) {
-        val sharedPref = context.getSharedPreferences("My_languages", Context.MODE_PRIVATE)
-        sharedPref.edit { putStringSet("language_saved", languages.toSet()) }
+        val sharedPref = context.getSharedPreferences(MY_LANGUAGES, Context.MODE_PRIVATE)
+        sharedPref.edit { putStringSet(LANGUAGE_SAVED, languages.toSet()) }
     }
 
     fun saveLanguages(languages: List<String>) {
-        val sharedPref = context.getSharedPreferences("My_languages", Context.MODE_PRIVATE)
-        sharedPref.edit { putStringSet("language_saved",languages.toSet()) }
-
+        val sharedPref = context.getSharedPreferences(MY_LANGUAGES, Context.MODE_PRIVATE)
+        sharedPref.edit { putStringSet(LANGUAGE_SAVED,languages.toSet()) }
     }
 }
-
+private const val MY_LANGUAGES = "My_languages"
+private const val LANGUAGE_SAVED = "language_saved"
 
 

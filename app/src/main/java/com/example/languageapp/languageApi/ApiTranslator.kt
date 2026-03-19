@@ -7,7 +7,7 @@ import retrofit2.http.Header
 import retrofit2.http.POST
 
 interface ApiTranslator {
-    @GET("languages")
+    @GET("v3/languages")
     suspend fun getLanguages(
         @Header("Authorization") token: String
     ): List<LanguagesResponse>
