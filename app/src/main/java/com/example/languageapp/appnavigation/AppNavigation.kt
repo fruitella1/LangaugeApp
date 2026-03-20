@@ -34,7 +34,7 @@ fun AppNavigation(sharedPreferencesHelper: SharedPreferencesHelper, retrofitInst
             }
 
             composable(LANGUAGE_SCREEN) {
-                val viewModel: LanguageViewModel = viewModel(factory = ViewModelFactory(sharedPreferencesHelper,retrofitInstance))
+                val viewModel: LanguageViewModel = viewModel(factory = ViewModelFactory(sharedPreferencesHelper, retrofitInstance))
                 LanguageScreen(viewModel)
             }
         }
