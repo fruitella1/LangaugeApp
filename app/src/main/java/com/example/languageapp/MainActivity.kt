@@ -8,21 +8,27 @@ import com.example.languageapp.appnavigation.AppNavigation
 import com.example.languageapp.common.SharedPreferencesHelper
 import com.example.languageapp.ui.theme.MyApplicationTheme
 import com.example.languageapp.languageApi.RetrofitInstance
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
 
 
 class MainActivity : ComponentActivity() {
-    private val prefsHelper = SharedPreferencesHelper(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        initKoin()
         enableEdgeToEdge()
         setContent {
             MyApplicationTheme {
-                AppNavigation(
-                    sharedPreferencesHelper = prefsHelper,
-                    retrofitInstance = RetrofitInstance
-                )
+                AppNavigation()
             }
+        }
+    }
+
+    private fun initKoin() {
+        startKoin {
+            androidContext(this@MainActivity)
+            modules(appModule)
         }
     }
 }

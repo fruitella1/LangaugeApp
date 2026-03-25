@@ -11,14 +11,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.languageapp.common.SharedPreferencesHelper
-import com.example.languageapp.common.ViewModelFactory
 import com.example.languageapp.language.LanguageViewModel
-import com.example.languageapp.language.ui.HomeScreen
+import com.example.languageapp.home.HomeScreen
 import com.example.languageapp.language.ui.LanguageScreen
 import com.example.languageapp.languageApi.RetrofitInstance
 
 @Composable
-fun AppNavigation(sharedPreferencesHelper: SharedPreferencesHelper, retrofitInstance: RetrofitInstance) {
+fun AppNavigation() {
     val navController = rememberNavController()
     Scaffold(
         bottomBar = { BottomBarNavigation(navController) },
@@ -34,8 +33,7 @@ fun AppNavigation(sharedPreferencesHelper: SharedPreferencesHelper, retrofitInst
             }
 
             composable(LANGUAGE_SCREEN) {
-                val viewModel: LanguageViewModel = viewModel(factory = ViewModelFactory(sharedPreferencesHelper, retrofitInstance))
-                LanguageScreen(viewModel)
+                LanguageScreen()
             }
         }
     }
