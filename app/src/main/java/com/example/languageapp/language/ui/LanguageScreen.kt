@@ -3,6 +3,7 @@ package com.example.languageapp.language.ui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -29,22 +30,31 @@ import org.koin.core.module.Module
 
 @Composable
 fun LanguageScreen() {
-    rememberKoinModules(modules = { listOf(languageModule) }, unloadModules = true)
+    rememberKoinModules(unloadModules = true) {
+        listOf(languageModule)
+    }
 
     val viewModel = koinViewModel<LanguageViewModel>()
     val state by viewModel.state.collectAsState()
 
-    Scaffold(modifier = Modifier.padding(horizontal = 8.dp)) { paddingValues ->
-        Column(modifier = Modifier.padding(paddingValues)) {
-            TextField(modifier = Modifier.fillMaxWidth(),
+    Scaffold(
+        topBar = {
+            TextField(
                 value = state.text,
                 onValueChange = {
                     viewModel.onAction(
                         LanguageAction.LanguageValueChanged(textChanged = it)
                     )
-                }
+                },
+                modifier = Modifier.fillMaxWidth().padding(8.dp)
             )
-            Spacer(modifier = Modifier.padding(vertical = 8.dp))
+        }
+    ) { paddingValues ->
+
+        Column(modifier = Modifier.fillMaxSize().padding(paddingValues)) {
+            Spacer(
+                modifier = Modifier.padding(vertical = 8.dp)
+            )
             LanguageList(
                 languages = state.filteredLanguages
             )
@@ -54,7 +64,10 @@ fun LanguageScreen() {
 
 @Composable
 fun LanguageList(languages: List<LanguageItem>) {
-    LazyColumn(modifier = Modifier.fillMaxWidth().padding(8.dp), verticalArrangement = Arrangement.spacedBy(space = 2.dp)) {
+    LazyColumn(
+        modifier = Modifier.padding(8.dp),
+        verticalArrangement = Arrangement.spacedBy(space = 2.dp)
+    ) {
         items(
             items = languages,
             key = { it.id }

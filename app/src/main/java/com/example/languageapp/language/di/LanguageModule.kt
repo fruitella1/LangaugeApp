@@ -7,5 +7,4 @@ import org.koin.dsl.module
 
 val languageModule = module {
     viewModel { LanguageViewModel(get(), get()) }
-
 }
