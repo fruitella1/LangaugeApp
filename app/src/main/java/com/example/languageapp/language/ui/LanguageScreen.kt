@@ -50,7 +50,6 @@ fun LanguageScreen() {
             )
         }
     ) { paddingValues ->
-
         Column(modifier = Modifier.fillMaxSize().padding(paddingValues)) {
             Spacer(
                 modifier = Modifier.padding(vertical = 8.dp)
