@@ -6,25 +6,26 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.languageapp.common.SharedPreferencesHelper
-import com.example.languageapp.language.LanguageViewModel
+import androidx.navigation.navArgument
 import com.example.languageapp.home.HomeScreen
 import com.example.languageapp.language.ui.LanguageScreen
-import com.example.languageapp.languageApi.RetrofitInstance
+import com.example.languageapp.selectedlanguagescreen.SelectedLanguageScreen
 
 @Composable
 fun AppNavigation() {
-    val navController = rememberNavController()
+    val bottomBarNavController = rememberNavController()
+    val secondNavController = rememberNavController()
     Scaffold(
-        bottomBar = { BottomBarNavigation(navController) },
+        bottomBar = { BottomBarNavigation(bottomBarNavController) },
         modifier = Modifier.background(Color.LightGray)
     ) { paddingValues ->
         NavHost(
-            navController = navController,
+            navController = bottomBarNavController,
             startDestination = HOME_SCREEN,
             modifier = Modifier.padding(paddingValues)
         ) {
@@ -33,7 +34,16 @@ fun AppNavigation() {
             }
 
             composable(LANGUAGE_SCREEN) {
-                LanguageScreen()
+                LanguageScreen(bottomBarNavController)
+            }
+
+            composable(
+                "$SELECTED_LANGUAGE_SCREEN/{selectedLanguage}",
+                arguments = listOf(navArgument("selectedLanguage") { type = NavType.StringType })
+            ) { backStackEntry ->
+                val selectedLanguage =
+                    backStackEntry.arguments?.getString("selectedLanguage") ?: "Unknown"
+                SelectedLanguageScreen(selectedLanguage, bottomBarNavController)
             }
         }
     }
@@ -41,3 +51,4 @@ fun AppNavigation() {
 
 const val LANGUAGE_SCREEN = "LanguageScreen"
 const val HOME_SCREEN = "HomeScreen"
+const val SELECTED_LANGUAGE_SCREEN = "SelectedLanguageScreen"
