@@ -22,13 +22,27 @@ fun BottomBarNavigation(navController: NavHostController) {
             icon = { Icon(imageVector = Icons.Default.Home, contentDescription = HOME) },
             label = { Text(text = HOME) },
             selected = currentRoute == HOME_SCREEN,
-            onClick = { navController.navigate(HOME_SCREEN) }
+            onClick = {
+                navController.navigate(HOME_SCREEN) {
+                    popUpTo(navController.graph.startDestinationId){
+                        saveState = true
+                    }
+                    launchSingleTop = true
+                }
+            }
         )
         NavigationBarItem(
             icon = { Icon(imageVector = Icons.Default.Search, contentDescription = SEARCH) },
             label = { Text(text = SEARCH) },
             selected = currentRoute == LANGUAGE_SCREEN,
-            onClick = { navController.navigate(LANGUAGE_SCREEN) }
+            onClick = {
+                navController.navigate(LANGUAGE_SCREEN) {
+                    popUpTo(navController.graph.startDestinationId) {
+                        saveState = true
+                    }
+                    launchSingleTop = true
+                }
+            }
         )
     }
 }

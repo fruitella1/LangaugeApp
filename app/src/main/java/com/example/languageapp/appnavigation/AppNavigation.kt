@@ -6,7 +6,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -19,7 +18,6 @@ import com.example.languageapp.selectedlanguagescreen.SelectedLanguageScreen
 @Composable
 fun AppNavigation() {
     val bottomBarNavController = rememberNavController()
-    val secondNavController = rememberNavController()
     Scaffold(
         bottomBar = { BottomBarNavigation(bottomBarNavController) },
         modifier = Modifier.background(Color.LightGray)

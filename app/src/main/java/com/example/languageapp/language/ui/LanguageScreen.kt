@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.languageapp.appnavigation.HOME_SCREEN
 import com.example.languageapp.appnavigation.SELECTED_LANGUAGE_SCREEN
 import com.example.languageapp.language.LanguageViewModel
 import com.example.languageapp.language.arch.LanguageAction
@@ -61,7 +62,10 @@ fun LanguageScreen(navController: NavController) {
             LanguageList(
                 languages = state.filteredLanguages,
                 onItemClick =  { item ->
-                    navController.navigate("$SELECTED_LANGUAGE_SCREEN/${item.language}")
+                    navController.navigate("$SELECTED_LANGUAGE_SCREEN/${item.language}"){
+                        popUpTo(HOME_SCREEN)
+
+                    }
                 }
             )
         }
