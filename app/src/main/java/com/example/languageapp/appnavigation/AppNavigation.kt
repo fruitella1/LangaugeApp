@@ -34,7 +34,6 @@ fun AppNavigation() {
             composable(LANGUAGE_SCREEN) {
                 LanguageScreen(bottomBarNavController)
             }
-
             composable(
                 "$SELECTED_LANGUAGE_SCREEN/{selectedLanguage}",
                 arguments = listOf(navArgument("selectedLanguage") { type = NavType.StringType })

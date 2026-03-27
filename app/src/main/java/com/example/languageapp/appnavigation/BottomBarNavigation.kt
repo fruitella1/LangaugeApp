@@ -34,11 +34,11 @@ fun BottomBarNavigation(navController: NavHostController) {
         NavigationBarItem(
             icon = { Icon(imageVector = Icons.Default.Search, contentDescription = SEARCH) },
             label = { Text(text = SEARCH) },
-            selected = currentRoute == LANGUAGE_SCREEN,
+            selected = currentRoute == LANGUAGE_SCREEN || currentRoute?.startsWith(SELECTED_LANGUAGE_SCREEN)  == true,
             onClick = {
-                navController.navigate(LANGUAGE_SCREEN) {
-                    popUpTo(navController.graph.startDestinationId) {
-                        saveState = true
+                navController.navigate(LANGUAGE_SCREEN ) {
+                    popUpTo(0) {
+                        inclusive = true
                     }
                     launchSingleTop = true
                 }
