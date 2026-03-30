@@ -50,9 +50,7 @@ class LanguageViewModel(
                     text = text, filteredLanguages = filtered
                 )
             }
-            is LanguageAction.LanguageSelected -> {
-               val selected = action.item
-            }
+            else -> {}
         }
     }
 

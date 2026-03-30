@@ -24,22 +24,34 @@ fun SelectedLanguageScreen(selectedLanguage: String, navController: NavControlle
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = stringResource(id = R.string.russian_to_language, selectedLanguage )) },
+                title = {
+                    Text(
+                        text = stringResource(
+                            id = R.string.russian_to_language,
+                            selectedLanguage
+                        )
+                    )
+                },
                 navigationIcon = {
-                    IconButton(onClick = {navController.popBackStack() }) {
-                        Icon (imageVector = Icons.Filled.ArrowBack, contentDescription = "Назад")
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "Назад")
                     }
                 }
             )
         }
     ) { paddingValues ->
         Box(
-            modifier = Modifier.fillMaxSize().padding(paddingValues)
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
         ) {
             Text(
-                text = "You picked: $selectedLanguage",
+                text = stringResource(
+                    R.string.pick_language,
+                    selectedLanguage
+                ),
                 modifier = Modifier.padding(8.dp)
-                )
+            )
         }
     }
 }
