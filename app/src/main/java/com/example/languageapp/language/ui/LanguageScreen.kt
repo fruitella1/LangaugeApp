@@ -65,7 +65,6 @@ fun LanguageScreen(navController: NavController) {
                 onItemClick = { item ->
                     navController.navigate("$SELECTED_LANGUAGE_SCREEN/${item.language}") {
                         popUpTo(HOME_SCREEN)
-
                     }
                 }
             )

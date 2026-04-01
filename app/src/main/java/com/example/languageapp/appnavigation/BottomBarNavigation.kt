@@ -24,7 +24,7 @@ fun BottomBarNavigation(navController: NavHostController) {
             selected = currentRoute == HOME_SCREEN,
             onClick = {
                 navController.navigate(HOME_SCREEN) {
-                    popUpTo(navController.graph.startDestinationId){
+                    popUpTo(0){
                        inclusive = true
                     }
                     launchSingleTop = true
