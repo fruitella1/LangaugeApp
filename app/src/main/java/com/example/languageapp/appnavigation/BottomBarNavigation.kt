@@ -9,6 +9,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -19,24 +20,44 @@ fun BottomBarNavigation(navController: NavHostController) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
 
-        NavigationBarItem(
-            icon = { Icon(imageVector = Icons.Default.Home, contentDescription = HOME) },
-            label = { Text(text = HOME) },
-            selected = currentRoute == HOME_SCREEN,
-            onClick = {
-                navBarItemClick(HOME_SCREEN,navController)
-            }
-        )
-        NavigationBarItem(
-            icon = { Icon(imageVector = Icons.Default.Search, contentDescription = SEARCH) },
-            label = { Text(text = SEARCH) },
-            selected = currentRoute == LANGUAGE_SCREEN || currentRoute?.startsWith(
-                SELECTED_LANGUAGE_SCREEN
-            ) == true,
-            onClick = {
-                navBarItemClick(LANGUAGE_SCREEN,navController)
-            }
-        )
+        @Composable
+        fun NavBarItemCreator(
+            route: String,
+            currentRoute: String?,
+            icon: ImageVector,
+            label: String,
+            navController: NavController,
+            isSelected: (String?) -> Boolean
+        ) {
+                NavigationBarItem(
+                    icon = { Icon(icon, contentDescription = label) },
+                    label = { Text(label) },
+                    selected = isSelected(currentRoute),
+                    onClick = {
+                        navBarItemClick(
+                            route = route, navController = navController
+                        )
+                    }
+                )
+        }
+        NavigationBar {
+            NavBarItemCreator(
+                route = HOME_SCREEN,
+                currentRoute = currentRoute,
+                icon = Icons.Default.Home,
+                label = HOME,
+                navController = navController,
+                isSelected = { it == HOME_SCREEN }
+            )
+            NavBarItemCreator(
+                route = LANGUAGE_SCREEN,
+                currentRoute = currentRoute,
+                icon = Icons.Default.Search,
+                label = SEARCH,
+                navController = navController,
+                isSelected = { it == LANGUAGE_SCREEN || it?.startsWith(SELECTED_LANGUAGE_SCREEN) == true }
+            )
+        }
     }
 }
 
@@ -47,6 +68,29 @@ fun navBarItemClick(route: String, navController: NavController) {
         }
         launchSingleTop = true
     }
+}
+
+@Composable
+fun NavBarItem(
+    route: String,
+    currentRoute: String?,
+    icon: ImageVector,
+    label: String,
+    navController: NavController,
+    isSelected: (String?) -> Boolean
+) {
+   NavigationBar {
+       NavigationBarItem(
+           icon = { Icon(icon, contentDescription = label) },
+           label = { Text(label) },
+           selected = isSelected(currentRoute),
+           onClick = {
+               navBarItemClick(
+                   route = route, navController = navController
+               )
+           }
+       )
+   }
 }
 
 const val HOME = "Home"
