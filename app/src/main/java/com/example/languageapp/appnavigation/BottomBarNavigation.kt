@@ -1,6 +1,5 @@
 package com.example.languageapp.appnavigation
 
-import android.net.IpPrefix
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Search
@@ -23,7 +22,7 @@ fun BottomBarNavigation(navController: NavHostController) {
         NavigationBarItem(
             icon = { Icon(Icons.Default.Home, contentDescription = HOME) },
             label = { Text(HOME) },
-            selected = currentRoute == HOME_SCREEN,
+            selected = isRouteSelected(route = currentRoute, prefix = HOME_SCREEN),
             onClick = {
                 navBarItemClick(
                     route = HOME_SCREEN,
@@ -35,7 +34,7 @@ fun BottomBarNavigation(navController: NavHostController) {
         NavigationBarItem(
             icon = { Icon(Icons.Default.Search, contentDescription = SEARCH) },
             label = { Text(SEARCH) },
-            selected = currentRoute == LANGUAGE_SCREEN || isRouteSelected(route = currentRoute, prefix = SELECTED_LANGUAGE_SCREEN),
+            selected = isRouteSelected(route = currentRoute, prefix = SELECTED_LANGUAGE_SCREEN),
             onClick = {
                 navBarItemClick(
                     route = LANGUAGE_SCREEN,
@@ -55,7 +54,7 @@ fun navBarItemClick(route: String, navController: NavController) {
     }
 }
 
-fun isRouteSelected (route: String?, prefix: String): Boolean{
+private fun isRouteSelected (route: String?, prefix: String): Boolean{
    return route?.startsWith(prefix) == true
 }
 
