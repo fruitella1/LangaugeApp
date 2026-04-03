@@ -1,5 +1,6 @@
 package com.example.languageapp.appnavigation
 
+import android.net.IpPrefix
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Search
@@ -9,7 +10,6 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -20,44 +20,29 @@ fun BottomBarNavigation(navController: NavHostController) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
 
-        @Composable
-        fun NavBarItemCreator(
-            route: String,
-            currentRoute: String?,
-            icon: ImageVector,
-            label: String,
-            navController: NavController,
-            isSelected: (String?) -> Boolean
-        ) {
-                NavigationBarItem(
-                    icon = { Icon(icon, contentDescription = label) },
-                    label = { Text(label) },
-                    selected = isSelected(currentRoute),
-                    onClick = {
-                        navBarItemClick(
-                            route = route, navController = navController
-                        )
-                    }
+        NavigationBarItem(
+            icon = { Icon(Icons.Default.Home, contentDescription = HOME) },
+            label = { Text(HOME) },
+            selected = currentRoute == HOME_SCREEN,
+            onClick = {
+                navBarItemClick(
+                    route = HOME_SCREEN,
+                    navController = navController
                 )
-        }
-        NavigationBar {
-            NavBarItemCreator(
-                route = HOME_SCREEN,
-                currentRoute = currentRoute,
-                icon = Icons.Default.Home,
-                label = HOME,
-                navController = navController,
-                isSelected = { it == HOME_SCREEN }
-            )
-            NavBarItemCreator(
-                route = LANGUAGE_SCREEN,
-                currentRoute = currentRoute,
-                icon = Icons.Default.Search,
-                label = SEARCH,
-                navController = navController,
-                isSelected = { it == LANGUAGE_SCREEN || it?.startsWith(SELECTED_LANGUAGE_SCREEN) == true }
-            )
-        }
+            }
+        )
+
+        NavigationBarItem(
+            icon = { Icon(Icons.Default.Search, contentDescription = SEARCH) },
+            label = { Text(SEARCH) },
+            selected = currentRoute == LANGUAGE_SCREEN || isRouteSelected(route = currentRoute, prefix = SELECTED_LANGUAGE_SCREEN),
+            onClick = {
+                navBarItemClick(
+                    route = LANGUAGE_SCREEN,
+                    navController = navController
+                )
+            }
+        )
     }
 }
 
@@ -70,27 +55,8 @@ fun navBarItemClick(route: String, navController: NavController) {
     }
 }
 
-@Composable
-fun NavBarItem(
-    route: String,
-    currentRoute: String?,
-    icon: ImageVector,
-    label: String,
-    navController: NavController,
-    isSelected: (String?) -> Boolean
-) {
-   NavigationBar {
-       NavigationBarItem(
-           icon = { Icon(icon, contentDescription = label) },
-           label = { Text(label) },
-           selected = isSelected(currentRoute),
-           onClick = {
-               navBarItemClick(
-                   route = route, navController = navController
-               )
-           }
-       )
-   }
+fun isRouteSelected (route: String?, prefix: String): Boolean{
+   return route?.startsWith(prefix) == true
 }
 
 const val HOME = "Home"
