@@ -45,7 +45,7 @@ fun BottomBarNavigation(navController: NavHostController) {
     }
 }
 
-fun navBarItemClick(route: String, navController: NavController) {
+private fun navBarItemClick(route: String, navController: NavController) {
     navController.navigate(route) {
         popUpTo(0) {
             inclusive = true
