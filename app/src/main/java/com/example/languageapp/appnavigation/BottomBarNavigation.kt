@@ -9,6 +9,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 
@@ -19,18 +20,42 @@ fun BottomBarNavigation(navController: NavHostController) {
         val currentRoute = navBackStackEntry?.destination?.route
 
         NavigationBarItem(
-            icon = { Icon(imageVector = Icons.Default.Home, contentDescription = HOME) },
-            label = { Text(text = HOME) },
-            selected = currentRoute == HOME_SCREEN,
-            onClick = { navController.navigate(HOME_SCREEN) }
+            icon = { Icon(Icons.Default.Home, contentDescription = HOME) },
+            label = { Text(HOME) },
+            selected = isRouteSelected(route = currentRoute, prefix = HOME_SCREEN),
+            onClick = {
+                navBarItemClick(
+                    route = HOME_SCREEN,
+                    navController = navController
+                )
+            }
         )
+
         NavigationBarItem(
-            icon = { Icon(imageVector = Icons.Default.Search, contentDescription = SEARCH) },
-            label = { Text(text = SEARCH) },
-            selected = currentRoute == LANGUAGE_SCREEN,
-            onClick = { navController.navigate(LANGUAGE_SCREEN) }
+            icon = { Icon(Icons.Default.Search, contentDescription = SEARCH) },
+            label = { Text(SEARCH) },
+            selected = isRouteSelected(route = currentRoute, prefix = SELECTED_LANGUAGE_SCREEN),
+            onClick = {
+                navBarItemClick(
+                    route = LANGUAGE_SCREEN,
+                    navController = navController
+                )
+            }
         )
     }
+}
+
+private fun navBarItemClick(route: String, navController: NavController) {
+    navController.navigate(route) {
+        popUpTo(0) {
+            inclusive = true
+        }
+        launchSingleTop = true
+    }
+}
+
+private fun isRouteSelected (route: String?, prefix: String): Boolean{
+   return route?.startsWith(prefix) == true
 }
 
 const val HOME = "Home"

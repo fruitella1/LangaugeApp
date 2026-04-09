@@ -2,6 +2,7 @@ package com.example.languageapp.language
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.languageapp.appnavigation.AppNavigation
 import com.example.languageapp.common.SharedPreferencesHelper
 import com.example.languageapp.language.arch.LanguageAction
 import com.example.languageapp.language.arch.LanguageItem
@@ -49,6 +50,7 @@ class LanguageViewModel(
                     text = text, filteredLanguages = filtered
                 )
             }
+            else -> {}
         }
     }
 

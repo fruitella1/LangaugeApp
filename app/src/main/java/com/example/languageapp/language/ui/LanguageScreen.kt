@@ -1,9 +1,8 @@
 package com.example.languageapp.language.ui
 
-import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,19 +16,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import com.example.languageapp.appnavigation.HOME_SCREEN
+import com.example.languageapp.appnavigation.SELECTED_LANGUAGE_SCREEN
 import com.example.languageapp.language.LanguageViewModel
 import com.example.languageapp.language.arch.LanguageAction
 import com.example.languageapp.language.arch.LanguageItem
 import com.example.languageapp.language.di.languageModule
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.module.rememberKoinModules
-import org.koin.core.module.Module
 
 
 @Composable
-fun LanguageScreen() {
+fun LanguageScreen(navController: NavController) {
     rememberKoinModules(unloadModules = true) {
         listOf(languageModule)
     }
@@ -46,23 +46,37 @@ fun LanguageScreen() {
                         LanguageAction.LanguageValueChanged(textChanged = it)
                     )
                 },
-                modifier = Modifier.fillMaxWidth().padding(8.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp)
             )
         }
     ) { paddingValues ->
-        Column(modifier = Modifier.fillMaxSize().padding(paddingValues)) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+        ) {
             Spacer(
                 modifier = Modifier.padding(vertical = 8.dp)
             )
             LanguageList(
-                languages = state.filteredLanguages
+                languages = state.filteredLanguages,
+                onItemClick = { item ->
+                    navController.navigate("$SELECTED_LANGUAGE_SCREEN/${item.language}") {
+                        popUpTo(HOME_SCREEN)
+                    }
+                }
             )
         }
     }
 }
 
 @Composable
-fun LanguageList(languages: List<LanguageItem>) {
+fun LanguageList(
+    languages: List<LanguageItem>,
+    onItemClick: (LanguageItem) -> Unit
+) {
     LazyColumn(
         modifier = Modifier.padding(8.dp),
         verticalArrangement = Arrangement.spacedBy(space = 2.dp)
@@ -72,10 +86,14 @@ fun LanguageList(languages: List<LanguageItem>) {
             key = { it.id }
         ) { item ->
             Text(
-                text = item.language
+                text = item.language,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        onItemClick(item)
+                    }
+                    .padding(2.dp)
             )
         }
     }
 }
-
-
