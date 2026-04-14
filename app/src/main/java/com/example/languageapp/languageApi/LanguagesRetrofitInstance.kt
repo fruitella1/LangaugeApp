@@ -3,16 +3,26 @@ package com.example.languageapp.languageApi
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-object LanguagesRetrofitInstance {
-    private const val LANGUAGE_URL = "https://ws.detectlanguage.com/"
+private const val TRANSLATION_URL = "https://api.langbly.com/"
+private const val LANGUAGE_URL = "https://ws.detectlanguage.com/"
 
-    private val retrofit by lazy {
-        Retrofit.Builder()
-            .baseUrl(LANGUAGE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+object LanguagesRetrofitInstance {
+
+    private val retrofit = retrofitFactory(LANGUAGE_URL)
+
+    val languagesApi : ApiRequests by lazy {
+        retrofit.create(ApiRequests::class.java)
     }
-    val api : LanguagesApiTranslator by lazy {
-        retrofit.create(LanguagesApiTranslator::class.java)
-    }
+//    private val translationRetrofit = retrofitFactory(TRANSLATION_URL)
+//
+//    val translationApi : TranslationApiTranslator by lazy {
+//        translationRetrofit.create(TranslationApiTranslator::class.java)
+//    }
+}
+
+fun retrofitFactory(url: String): Retrofit{
+    return Retrofit.Builder()
+        .baseUrl(url)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
 }

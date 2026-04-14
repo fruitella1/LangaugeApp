@@ -7,8 +7,7 @@ import com.example.languageapp.language.arch.LanguageAction
 import com.example.languageapp.language.arch.LanguageItem
 import com.example.languageapp.language.arch.LanguageState
 import com.example.languageapp.languageApi.LanguagesRetrofitInstance
-import com.example.languageapp.translationApi.TranslationRequest
-import com.example.languageapp.translationApi.TranslationRetrofitInstance
+import com.example.languageapp.languageApi.TranslationRequest
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,7 +16,6 @@ import kotlinx.coroutines.launch
 class LanguageViewModel(
     private val preferencesHelper: SharedPreferencesHelper,
     private var languagesInstance: LanguagesRetrofitInstance,
-    private var translationInstance: TranslationRetrofitInstance
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<LanguageState> =
@@ -79,7 +77,7 @@ class LanguageViewModel(
     private fun languagesGet() {
         viewModelScope.launch {
             try {
-                val apiLanguages = languagesInstance.api.getLanguages(
+                val apiLanguages = languagesInstance.languagesApi.getLanguages(
                     token = LANGUAGES_API_KEY
                 )
                 val newLanguageList =
@@ -112,7 +110,7 @@ class LanguageViewModel(
             if (text.isBlank() || target.isBlank()) return@launch
 
             try {
-                val result = translationInstance.api.getTranslation(
+                val result = languagesInstance.languagesApi.getTranslation(
                     token = TRANSLATION_API_KEY,
                     request = TranslationRequest(q = text, target = target)
                 )

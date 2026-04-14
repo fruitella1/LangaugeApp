@@ -1,15 +1,15 @@
 package com.example.languageapp.language.ui
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -22,12 +22,13 @@ import com.example.languageapp.appnavigation.HOME_SCREEN
 import com.example.languageapp.appnavigation.SELECTED_LANGUAGE_SCREEN
 import com.example.languageapp.language.LanguageViewModel
 import com.example.languageapp.language.arch.LanguageAction
-import com.example.languageapp.language.arch.LanguageItem
 import com.example.languageapp.language.di.languageModule
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.module.rememberKoinModules
+import org.koin.core.annotation.KoinExperimentalAPI
 
 
+@OptIn(KoinExperimentalAPI::class, ExperimentalFoundationApi::class)
 @Composable
 fun LanguageScreen(navController: NavController) {
     rememberKoinModules(unloadModules = true) {
@@ -37,8 +38,13 @@ fun LanguageScreen(navController: NavController) {
     val viewModel = koinViewModel<LanguageViewModel>()
     val state by viewModel.state.collectAsState()
 
-    Scaffold(
-        topBar = {
+    LazyColumn(
+        modifier = Modifier
+            .padding(horizontal = 8.dp)
+            .statusBarsPadding(),
+        verticalArrangement = Arrangement.spacedBy(space = 2.dp)
+    ) {
+        stickyHeader {
             TextField(
                 value = state.textSearch,
                 onValueChange = {
@@ -46,47 +52,16 @@ fun LanguageScreen(navController: NavController) {
                         LanguageAction.LanguageValueChanged(textChanged = it)
                     )
                 },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
+                modifier = Modifier.fillMaxWidth(),
             )
         }
-    ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-        ) {
-            Spacer(
-                modifier = Modifier.padding(vertical = 8.dp)
-            )
-            LanguageList(
-                languages = state.filteredLanguages,
-                onItemClick = { item ->
-                    viewModel.onAction(
-                        LanguageAction.LanguageSelected(item)
-                    )
 
-                    navController.navigate("$SELECTED_LANGUAGE_SCREEN/${item.language}") {
-                        popUpTo(HOME_SCREEN)
-                    }
-                }
-            )
+        item {
+            Spacer(Modifier.height(8.dp))
         }
-    }
-}
 
-@Composable
-fun LanguageList(
-    languages: List<LanguageItem>,
-    onItemClick: (LanguageItem) -> Unit
-) {
-    LazyColumn(
-        modifier = Modifier.padding(8.dp),
-        verticalArrangement = Arrangement.spacedBy(space = 2.dp)
-    ) {
         items(
-            items = languages,
+            items = state.filteredLanguages,
             key = { it.id }
         ) { item ->
             Text(
@@ -94,10 +69,17 @@ fun LanguageList(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable {
-                        onItemClick(item)
-                    }
-                    .padding(2.dp)
+                        viewModel.onAction(LanguageAction.LanguageSelected(item))
+
+                        navController.navigate("$SELECTED_LANGUAGE_SCREEN/${item.language}") {
+                            popUpTo(HOME_SCREEN)
+                        }
+                    },
             )
+        }
+
+        item {
+            Spacer(Modifier.height(8.dp))
         }
     }
 }

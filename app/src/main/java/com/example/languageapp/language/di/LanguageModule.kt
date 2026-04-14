@@ -6,5 +6,5 @@ import org.koin.dsl.module
 
 val languageModule = module {
     viewModel { LanguageViewModel(
-        preferencesHelper = get(), languagesInstance = get(), translationInstance = get()) }
+        preferencesHelper = get(), languagesInstance = get()) }
 }

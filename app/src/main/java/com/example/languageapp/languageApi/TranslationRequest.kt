@@ -1,4 +1,4 @@
-package com.example.languageapp.translationApi
+package com.example.languageapp.languageApi
 
 data class TranslationRequest (
     val q: String,

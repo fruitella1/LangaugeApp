@@ -3,6 +3,7 @@ package com.example.languageapp.selectedlanguagescreen
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import com.example.languageapp.R
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -47,7 +48,10 @@ fun SelectedLanguageScreen(selectedLanguage: String, navController: NavControlle
                 },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = stringResource(R.string.arrow_button_back))
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = stringResource(R.string.arrow_button_back)
+                        )
                     }
                 }
             )
