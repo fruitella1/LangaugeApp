@@ -3,7 +3,7 @@ package com.example.languageapp.languageApi
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-object RetrofitInstance {
+object LanguagesRetrofitInstance {
     private const val LANGUAGE_URL = "https://ws.detectlanguage.com/"
 
     private val retrofit by lazy {
@@ -12,7 +12,7 @@ object RetrofitInstance {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
-    val api : ApiTranslator by lazy {
-        retrofit.create(ApiTranslator::class.java)
+    val api : LanguagesApiTranslator by lazy {
+        retrofit.create(LanguagesApiTranslator::class.java)
     }
 }

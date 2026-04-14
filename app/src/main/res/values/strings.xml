@@ -3,4 +3,5 @@
     <string name="welcome_home">Welcome to home screen</string>
     <string name="russian_to_language">Русский → %1$s</string>
     <string name="pick_language">You picked: %1$s</string>
+    <string name="arrow_button_back">Back</string>
 </resources>

@@ -40,7 +40,7 @@ fun LanguageScreen(navController: NavController) {
     Scaffold(
         topBar = {
             TextField(
-                value = state.text,
+                value = state.textSearch,
                 onValueChange = {
                     viewModel.onAction(
                         LanguageAction.LanguageValueChanged(textChanged = it)
@@ -63,6 +63,10 @@ fun LanguageScreen(navController: NavController) {
             LanguageList(
                 languages = state.filteredLanguages,
                 onItemClick = { item ->
+                    viewModel.onAction(
+                        LanguageAction.LanguageSelected(item)
+                    )
+
                     navController.navigate("$SELECTED_LANGUAGE_SCREEN/${item.language}") {
                         popUpTo(HOME_SCREEN)
                     }
