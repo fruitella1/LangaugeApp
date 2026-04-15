@@ -6,18 +6,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 private const val TRANSLATION_URL = "https://api.langbly.com/"
 private const val LANGUAGE_URL = "https://ws.detectlanguage.com/"
 
-object LanguagesRetrofitInstance {
+object RetrofitInstance {
 
     private val retrofit = retrofitFactory(LANGUAGE_URL)
 
-    val languagesApi : ApiRequests by lazy {
+    val Api : ApiRequests by lazy {
         retrofit.create(ApiRequests::class.java)
     }
-//    private val translationRetrofit = retrofitFactory(TRANSLATION_URL)
-//
-//    val translationApi : TranslationApiTranslator by lazy {
-//        translationRetrofit.create(TranslationApiTranslator::class.java)
-//    }
 }
 
 fun retrofitFactory(url: String): Retrofit{

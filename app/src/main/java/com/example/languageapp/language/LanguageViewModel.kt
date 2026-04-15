@@ -6,7 +6,7 @@ import com.example.languageapp.common.SharedPreferencesHelper
 import com.example.languageapp.language.arch.LanguageAction
 import com.example.languageapp.language.arch.LanguageItem
 import com.example.languageapp.language.arch.LanguageState
-import com.example.languageapp.languageApi.LanguagesRetrofitInstance
+import com.example.languageapp.languageApi.RetrofitInstance
 import com.example.languageapp.languageApi.TranslationRequest
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 
 class LanguageViewModel(
     private val preferencesHelper: SharedPreferencesHelper,
-    private var languagesInstance: LanguagesRetrofitInstance,
+    private var retrofitInstance: RetrofitInstance,
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<LanguageState> =
@@ -77,7 +77,7 @@ class LanguageViewModel(
     private fun languagesGet() {
         viewModelScope.launch {
             try {
-                val apiLanguages = languagesInstance.languagesApi.getLanguages(
+                val apiLanguages = retrofitInstance.Api.getLanguages(
                     token = LANGUAGES_API_KEY
                 )
                 val newLanguageList =
@@ -110,7 +110,7 @@ class LanguageViewModel(
             if (text.isBlank() || target.isBlank()) return@launch
 
             try {
-                val result = languagesInstance.languagesApi.getTranslation(
+                val result = retrofitInstance.Api.getTranslation(
                     token = TRANSLATION_API_KEY,
                     request = TranslationRequest(q = text, target = target)
                 )
