@@ -10,7 +10,8 @@ data class LanguageState(
     val allLanguages: List<LanguageItem> = emptyList(),
     val textToTranslate: String = "",
     val languageSelectedCode: String = "",
-    val translatedText: String = ""
+    val translatedText: String = "",
+    val errorId: Int? = null
 )
 
 @Immutable

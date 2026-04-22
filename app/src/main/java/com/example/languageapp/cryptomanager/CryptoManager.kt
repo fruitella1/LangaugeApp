@@ -9,7 +9,7 @@ import javax.crypto.SecretKey
 import javax.crypto.spec.IvParameterSpec
 
 class CryptoManager {
-    private val keyStore = KeyStore.getInstance("AndroidKeyStore").apply {
+    private val keyStore = KeyStore.getInstance(ANDROID_KEY_STORE).apply {
         load(null)
     }
 
@@ -25,7 +25,7 @@ class CryptoManager {
     }
 
     private fun createKey(): SecretKey {
-        return KeyGenerator.getInstance(ALGORITHM, "AndroidKeyStore").apply {
+        return KeyGenerator.getInstance(ALGORITHM, ANDROID_KEY_STORE).apply {
             init(
                 KeyGenParameterSpec.Builder(
                     KEY_ALIAS,
@@ -64,7 +64,7 @@ class CryptoManager {
     }
 
     companion object {
-        private const val KEY_ALIAS = "secret"
+        private const val KEY_ALIAS = "Secret"
         private const val ALGORITHM = KeyProperties.KEY_ALGORITHM_AES
         private const val BLOCK_MODE = KeyProperties.BLOCK_MODE_CBC
         private const val PADDING = KeyProperties.ENCRYPTION_PADDING_PKCS7
@@ -76,3 +76,4 @@ data class EncryptedData(
     val cipherText: ByteArray,
     val iv: ByteArray
 )
+private const val ANDROID_KEY_STORE = "AndroidKeyStore"

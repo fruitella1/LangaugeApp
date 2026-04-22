@@ -4,4 +4,5 @@
     <string name="russian_to_language">Russian → %1$s</string>
     <string name="pick_language">You picked: %1$s</string>
     <string name="arrow_button_back">Back</string>
+    <string name="translation_error">Translation error</string>
 </resources>

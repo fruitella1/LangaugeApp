@@ -92,6 +92,12 @@ fun SelectedLanguageScreen(selectedLanguage: String, navController: NavControlle
                         .fillMaxWidth()
                         .padding(8.dp)
                 )
+                if(state.errorId != null){
+                    Text(
+                        text = stringResource(R.string.translation_error),
+                        modifier = Modifier.padding(horizontal = 8.dp)
+                    )
+                }
             }
         }
     }

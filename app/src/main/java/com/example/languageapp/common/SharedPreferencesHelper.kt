@@ -62,6 +62,7 @@ class SharedPreferencesHelper(private val context: Context) {
         val sharedPref = context.getSharedPreferences(SELECTED_LANGUAGE_PREFS, Context.MODE_PRIVATE)
         return sharedPref.getString(SELECTED_LANGUAGE, "en") ?: "en"
     }
+
     fun saveEncryptedValue(name: String, encryptedData: EncryptedData) {
         val sharedPref = context.getSharedPreferences(ENCRYPTED_PREFS, Context.MODE_PRIVATE)
         sharedPref.edit {
@@ -84,9 +85,9 @@ class SharedPreferencesHelper(private val context: Context) {
 
 }
 private const val LANGUAGES_APP_PREFS = "My_languages"
-private const val LANGUAGE_SAVED = "language_saved"
+private const val LANGUAGE_SAVED = "Language_saved"
 private const val SELECTED_LANGUAGE_PREFS ="My_selected_language"
-private const val SELECTED_LANGUAGE = "selected_language"
-private const val ENCRYPTED_PREFS = "encrypted_prefs"
+private const val SELECTED_LANGUAGE = "Selected_language"
+private const val ENCRYPTED_PREFS = "Encrypted_prefs"
 
 

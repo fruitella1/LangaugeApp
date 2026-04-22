@@ -2,6 +2,7 @@ package com.example.languageapp.language
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.languageapp.R
 import com.example.languageapp.common.SharedPreferencesHelper
 import com.example.languageapp.cryptomanager.CryptoManager
 import com.example.languageapp.language.arch.LanguageAction
@@ -9,6 +10,7 @@ import com.example.languageapp.language.arch.LanguageItem
 import com.example.languageapp.language.arch.LanguageState
 import com.example.languageapp.languageApi.RetrofitInstance
 import com.example.languageapp.languageApi.TranslationRequest
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -18,11 +20,12 @@ import kotlinx.coroutines.launch
 class LanguageViewModel(
     private val preferencesHelper: SharedPreferencesHelper,
     private var retrofitInstance: RetrofitInstance,
+    private var cryptoManager: CryptoManager,
+    private var keyEncryption: KeyEncryption
 ) : ViewModel() {
 
-    private var translationJob: kotlinx.coroutines.Job? = null
-    private val cryptoManager = CryptoManager()
-    private val keyEncryption = KeyEncryption(preferencesHelper)
+    private var translationDelayJob: Job? = null
+
     private val _state: MutableStateFlow<LanguageState> =
         MutableStateFlow(
             LanguageState(
@@ -70,8 +73,8 @@ class LanguageViewModel(
                 val text = action.textToTranslate
                 _state.value = _state.value.copy(textToTranslate = text)
 
-                translationJob?.cancel()
-                translationJob = viewModelScope.launch {
+                translationDelayJob?.cancel()
+                translationDelayJob = viewModelScope.launch {
                     delay(1000)
                     translation()
                 }
@@ -83,13 +86,14 @@ class LanguageViewModel(
 
     private fun languagesGet() {
         viewModelScope.launch {
-            val encrypted = preferencesHelper.getEncryptedValue(LANGUAGE_KEY)
             try {
                 val apiLanguages = retrofitInstance.Api.getLanguages(
-                    token = cryptoManager.decryptToString(encrypted)
+                    token = cryptoManager.decryptToString(preferencesHelper.getEncryptedValue(LANGUAGE_KEY))
                 )
                 val newLanguageList =
-                    apiLanguages.map { LanguageItem(language = it.name, code = it.code) }
+                    apiLanguages.map {
+                        LanguageItem(language = it.name, code = it.code)
+                    }
 
                 preferencesHelper.saveLanguages(apiLanguages.map { it.name })
                 _state.value = _state.value.copy(
@@ -100,7 +104,8 @@ class LanguageViewModel(
             } catch (e: Exception) {
 
                 val spLanguages =
-                    preferencesHelper.getLanguages().map { LanguageItem(language = it, code = it) }
+                    preferencesHelper.getLanguages()
+                        .map { LanguageItem(language = it, code = it) }
                 _state.value = _state.value.copy(
                     filteredLanguages = spLanguages,
                     allLanguages = spLanguages
@@ -111,28 +116,30 @@ class LanguageViewModel(
 
     private fun translation() {
         viewModelScope.launch {
-            val encrypted = preferencesHelper.getEncryptedValue(TRANSLATION_KEY)
             val text = _state.value.textToTranslate
             val target = _state.value.languageSelectedCode
 
             if (text.isBlank() || target.isBlank()) return@launch
 
+            _state.value = _state.value.copy(errorId = null)
+
             try {
                 val result = retrofitInstance.Api.getTranslation(
-                    token = cryptoManager.decryptToString(encrypted),
+                    token = cryptoManager.decryptToString(preferencesHelper.getEncryptedValue(TRANSLATION_KEY)),
                     request = TranslationRequest(q = text, target = target)
                 )
                 val translated = result.data.translations
-                    .firstOrNull()
-                    ?.translatedText
+                    .firstOrNull()?.
+                    translatedText
                     .orEmpty()
 
                 _state.value = _state.value.copy(
-                    translatedText = translated
+                    translatedText = translated,
+                    errorId = null
                 )
             } catch (e: Exception) {
                 _state.value = _state.value.copy(
-                    translatedText = "Ошибка перевода"
+                    errorId = R.string.translation_error
                 )
             }
         }
