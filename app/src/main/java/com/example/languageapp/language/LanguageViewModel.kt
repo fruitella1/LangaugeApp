@@ -3,11 +3,13 @@ package com.example.languageapp.language
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.languageapp.common.SharedPreferencesHelper
+import com.example.languageapp.cryptomanager.CryptoManager
 import com.example.languageapp.language.arch.LanguageAction
 import com.example.languageapp.language.arch.LanguageItem
 import com.example.languageapp.language.arch.LanguageState
 import com.example.languageapp.languageApi.RetrofitInstance
 import com.example.languageapp.languageApi.TranslationRequest
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,10 +20,14 @@ class LanguageViewModel(
     private var retrofitInstance: RetrofitInstance,
 ) : ViewModel() {
 
+    private var translationJob: kotlinx.coroutines.Job? = null
+    private val cryptoManager = CryptoManager()
+    private val keyEncryption = KeyEncryption(preferencesHelper)
     private val _state: MutableStateFlow<LanguageState> =
         MutableStateFlow(
             LanguageState(
                 textSearch = "",
+                languageSelectedCode = preferencesHelper.getSelectedLanguage(),
                 filteredLanguages = preferencesHelper.getLanguages().map {
                     LanguageItem(
                         language = it,
@@ -33,11 +39,7 @@ class LanguageViewModel(
     val state: StateFlow<LanguageState> = _state.asStateFlow()
 
     init {
-        val savedCode = preferencesHelper.getSelectedLanguage()
-
-        _state.value = _state.value.copy(
-            languageSelectedCode = savedCode
-        )
+        keyEncryption.encryptAndSave()
         languagesGet()
     }
 
@@ -67,7 +69,12 @@ class LanguageViewModel(
             is LanguageAction.ChangedTextToTranslate -> {
                 val text = action.textToTranslate
                 _state.value = _state.value.copy(textToTranslate = text)
-                translation()
+
+                translationJob?.cancel()
+                translationJob = viewModelScope.launch {
+                    delay(1000)
+                    translation()
+                }
             }
 
             else -> {}
@@ -76,9 +83,10 @@ class LanguageViewModel(
 
     private fun languagesGet() {
         viewModelScope.launch {
+            val encrypted = preferencesHelper.getEncryptedValue(LANGUAGE_KEY)
             try {
                 val apiLanguages = retrofitInstance.Api.getLanguages(
-                    token = LANGUAGES_API_KEY
+                    token = cryptoManager.decryptToString(encrypted)
                 )
                 val newLanguageList =
                     apiLanguages.map { LanguageItem(language = it.name, code = it.code) }
@@ -103,7 +111,7 @@ class LanguageViewModel(
 
     private fun translation() {
         viewModelScope.launch {
-
+            val encrypted = preferencesHelper.getEncryptedValue(TRANSLATION_KEY)
             val text = _state.value.textToTranslate
             val target = _state.value.languageSelectedCode
 
@@ -111,7 +119,7 @@ class LanguageViewModel(
 
             try {
                 val result = retrofitInstance.Api.getTranslation(
-                    token = TRANSLATION_API_KEY,
+                    token = cryptoManager.decryptToString(encrypted),
                     request = TranslationRequest(q = text, target = target)
                 )
                 val translated = result.data.translations
@@ -130,6 +138,3 @@ class LanguageViewModel(
         }
     }
 }
-
-private const val LANGUAGES_API_KEY = "Bearer ce1e879146cfcebb5f0b5478eefc0931"
-private const val TRANSLATION_API_KEY = "Bearer Lyr7N241PHbvk2sZes8qwC"

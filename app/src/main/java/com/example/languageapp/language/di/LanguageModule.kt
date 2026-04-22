@@ -5,6 +5,10 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val languageModule = module {
-    viewModel { LanguageViewModel(
-        preferencesHelper = get(), retrofitInstance = get()) }
+    viewModel {
+        LanguageViewModel(
+            preferencesHelper = get(),
+            retrofitInstance = get()
+        )
+    }
 }

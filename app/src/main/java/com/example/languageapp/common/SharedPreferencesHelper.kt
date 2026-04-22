@@ -2,6 +2,8 @@ package com.example.languageapp.common
 
 import android.content.Context
 import androidx.core.content.edit
+import com.example.languageapp.cryptomanager.EncryptedData
+import android.util.Base64
 
 class SharedPreferencesHelper(private val context: Context) {
     fun getLanguages(): Set<String> {
@@ -60,10 +62,31 @@ class SharedPreferencesHelper(private val context: Context) {
         val sharedPref = context.getSharedPreferences(SELECTED_LANGUAGE_PREFS, Context.MODE_PRIVATE)
         return sharedPref.getString(SELECTED_LANGUAGE, "en") ?: "en"
     }
+    fun saveEncryptedValue(name: String, encryptedData: EncryptedData) {
+        val sharedPref = context.getSharedPreferences(ENCRYPTED_PREFS, Context.MODE_PRIVATE)
+        sharedPref.edit {
+            putString("${name}_cipher", Base64.encodeToString(encryptedData.cipherText, Base64.NO_WRAP))
+            putString("${name}_iv", Base64.encodeToString(encryptedData.iv, Base64.NO_WRAP))
+        }
+    }
+
+    fun getEncryptedValue(name: String): EncryptedData {
+        val sharedPref = context.getSharedPreferences(ENCRYPTED_PREFS, Context.MODE_PRIVATE)
+
+        val cipherTextBase64 = sharedPref.getString("${name}_cipher", "")
+        val ivBase64 = sharedPref.getString("${name}_iv", "")
+
+        return EncryptedData(
+            cipherText = Base64.decode(cipherTextBase64, Base64.NO_WRAP),
+            iv = Base64.decode(ivBase64, Base64.NO_WRAP)
+        )
+    }
+
 }
 private const val LANGUAGES_APP_PREFS = "My_languages"
 private const val LANGUAGE_SAVED = "language_saved"
 private const val SELECTED_LANGUAGE_PREFS ="My_selected_language"
 private const val SELECTED_LANGUAGE = "selected_language"
+private const val ENCRYPTED_PREFS = "encrypted_prefs"
 
 

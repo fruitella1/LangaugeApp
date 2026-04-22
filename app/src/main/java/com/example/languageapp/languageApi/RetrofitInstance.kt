@@ -2,8 +2,6 @@ package com.example.languageapp.languageApi
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-
-private const val TRANSLATION_URL = "https://api.langbly.com/"
 private const val LANGUAGE_URL = "https://ws.detectlanguage.com/"
 
 object RetrofitInstance {

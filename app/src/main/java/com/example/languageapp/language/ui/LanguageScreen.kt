@@ -71,7 +71,7 @@ fun LanguageScreen(navController: NavController) {
                     .clickable {
                         viewModel.onAction(LanguageAction.LanguageSelected(item))
 
-                        navController.navigate("$SELECTED_LANGUAGE_SCREEN/${item.language}") {
+                        navController.navigate("$SELECTED_LANGUAGE_SCREEN/${item.code}") {
                             popUpTo(HOME_SCREEN)
                         }
                     },
