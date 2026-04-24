@@ -36,7 +36,7 @@ fun AppNavigation() {
             }
 
             composable(
-                route = "$SELECTED_LANGUAGE_SCREEN/{$SELECTED_LANGUAGE}",
+                route = SELECTED_LANGUAGE_ROUTE,
                 arguments = listOf(navArgument(SELECTED_LANGUAGE) { type = NavType.StringType })
             ) { backStackEntry ->
                 val selectedLanguage =
@@ -59,3 +59,4 @@ const val LANGUAGE_SCREEN = "LanguageScreen"
 const val HOME_SCREEN = "HomeScreen"
 const val SELECTED_LANGUAGE_SCREEN = "SelectedLanguageScreen"
 const val SELECTED_LANGUAGE = "selectedLanguage"
+const val SELECTED_LANGUAGE_ROUTE = "$SELECTED_LANGUAGE_SCREEN/{$SELECTED_LANGUAGE}"

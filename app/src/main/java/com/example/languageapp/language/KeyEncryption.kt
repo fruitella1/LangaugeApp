@@ -3,7 +3,7 @@ package com.example.languageapp.language
 import com.example.languageapp.common.SharedPreferencesHelper
 import com.example.languageapp.cryptomanager.CryptoManager
 
-class KeyEncryption(private val preferencesHelper: SharedPreferencesHelper) {
+internal class KeyEncryption(private val preferencesHelper: SharedPreferencesHelper) {
     val cryptoManager = CryptoManager()
 
     fun encryptAndSave() {

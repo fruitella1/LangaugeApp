@@ -8,7 +8,7 @@ import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
 import javax.crypto.spec.IvParameterSpec
 
-class CryptoManager {
+internal class CryptoManager {
     private val keyStore = KeyStore.getInstance(ANDROID_KEY_STORE).apply {
         load(null)
     }

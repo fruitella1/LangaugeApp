@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class LanguageViewModel(
+internal class LanguageViewModel(
     private val preferencesHelper: SharedPreferencesHelper,
     private var retrofitInstance: RetrofitInstance,
     private var cryptoManager: CryptoManager,
