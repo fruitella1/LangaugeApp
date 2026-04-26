@@ -42,7 +42,6 @@ internal class LanguageViewModel(
     val state: StateFlow<LanguageState> = _state.asStateFlow()
 
     init {
-        keyEncryption.encryptAndSave()
         languagesGet()
     }
 
@@ -75,8 +74,8 @@ internal class LanguageViewModel(
 
                 translationDelayJob?.cancel()
                 translationDelayJob = viewModelScope.launch {
-                    delay(1000)
-                    translation()
+                    delay(DELAY)
+                    textTranslation()
                 }
             }
 
@@ -88,7 +87,11 @@ internal class LanguageViewModel(
         viewModelScope.launch {
             try {
                 val apiLanguages = retrofitInstance.Api.getLanguages(
-                    token = cryptoManager.decryptToString(preferencesHelper.getEncryptedValue(LANGUAGE_KEY))
+                    token = cryptoManager.decryptToString(
+                        preferencesHelper.getEncryptedValue(
+                            LANGUAGE_KEY
+                        )
+                    )
                 )
                 val newLanguageList =
                     apiLanguages.map {
@@ -103,9 +106,7 @@ internal class LanguageViewModel(
 
             } catch (e: Exception) {
 
-                val spLanguages =
-                    preferencesHelper.getLanguages()
-                        .map { LanguageItem(language = it, code = it) }
+                val spLanguages = preferencesHelper.getLanguages().map { LanguageItem(language = it, code = it) }
                 _state.value = _state.value.copy(
                     filteredLanguages = spLanguages,
                     allLanguages = spLanguages
@@ -114,7 +115,7 @@ internal class LanguageViewModel(
         }
     }
 
-    private fun translation() {
+    private fun textTranslation() {
         viewModelScope.launch {
             val text = _state.value.textToTranslate
             val target = _state.value.languageSelectedCode
@@ -125,12 +126,16 @@ internal class LanguageViewModel(
 
             try {
                 val result = retrofitInstance.Api.getTranslation(
-                    token = cryptoManager.decryptToString(preferencesHelper.getEncryptedValue(TRANSLATION_KEY)),
+                    token = cryptoManager.decryptToString(
+                        preferencesHelper.getEncryptedValue(
+                            TRANSLATION_KEY
+                        )
+                    ),
                     request = TranslationRequest(q = text, target = target)
                 )
                 val translated = result.data.translations
-                    .firstOrNull()?.
-                    translatedText
+                    .firstOrNull()
+                    ?.translatedText
                     .orEmpty()
 
                 _state.value = _state.value.copy(
@@ -145,3 +150,4 @@ internal class LanguageViewModel(
         }
     }
 }
+private const val  DELAY = 1000.toLong()

@@ -13,7 +13,7 @@ val languageModule = module {
             preferencesHelper = get(),
             retrofitInstance = get(),
             cryptoManager = get(),
-            keyEncryption = get()
+            keyEncryption = get(),
         )
     }
 }
