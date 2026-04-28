@@ -70,8 +70,8 @@ fun LanguageScreen(navController: NavController) {
                     .fillMaxWidth()
                     .clickable {
                         viewModel.onAction(LanguageAction.LanguageSelected(item))
-
-                        navController.navigate("$SELECTED_LANGUAGE_SCREEN/${item.code}") {
+                        val code = item.code
+                        navController.navigate("$SELECTED_LANGUAGE_SCREEN/$code") {
                             popUpTo(HOME_SCREEN)
                         }
                     },

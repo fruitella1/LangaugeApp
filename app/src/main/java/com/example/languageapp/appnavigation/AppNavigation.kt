@@ -37,10 +37,10 @@ fun AppNavigation() {
 
             composable(
                 route = SELECTED_LANGUAGE_ROUTE,
-                arguments = listOf(navArgument(SELECTED_LANGUAGE) { type = NavType.StringType })
+                arguments = listOf(navArgument(SELECTED_LANGUAGE_NAV_ARGUMENT) { type = NavType.StringType })
             ) { backStackEntry ->
                 val selectedLanguage =
-                    backStackEntry.arguments?.getString(SELECTED_LANGUAGE).orEmpty()
+                    backStackEntry.arguments?.getString(SELECTED_LANGUAGE_NAV_ARGUMENT).orEmpty()
                 SelectedLanguageScreen(selectedLanguage, appNavController)
             }
         }
@@ -58,5 +58,5 @@ fun AppNavigation() {
 const val LANGUAGE_SCREEN = "LanguageScreen"
 const val HOME_SCREEN = "HomeScreen"
 const val SELECTED_LANGUAGE_SCREEN = "SelectedLanguageScreen"
-const val SELECTED_LANGUAGE = "selectedLanguage"
-const val SELECTED_LANGUAGE_ROUTE = "$SELECTED_LANGUAGE_SCREEN/{$SELECTED_LANGUAGE}"
+const val SELECTED_LANGUAGE_NAV_ARGUMENT = "SelectedLanguageNavArgument"
+const val SELECTED_LANGUAGE_ROUTE = "$SELECTED_LANGUAGE_SCREEN/${SELECTED_LANGUAGE_NAV_ARGUMENT}"

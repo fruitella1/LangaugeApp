@@ -18,8 +18,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         initKoin()
         val keyEncryption: KeyEncryption by inject()
-        enableEdgeToEdge()
         keyEncryption.encryptAndSave()
+        enableEdgeToEdge()
         setContent {
             MyApplicationTheme {
                 AppNavigation()

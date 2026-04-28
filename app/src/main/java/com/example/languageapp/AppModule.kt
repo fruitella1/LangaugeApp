@@ -11,7 +11,7 @@ import org.koin.dsl.module
 val appModule = module {
     single { SharedPreferencesHelper(androidContext()) }
     single { RetrofitInstance }
-    single { CryptoManager () }
+    single { CryptoManager() }
     single { LanguageViewModel(get(),get(),get(),get()) }
     single { KeyEncryption(get()) }
 }
