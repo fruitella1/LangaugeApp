@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="welcome_home">Добро пожаловать на домашний экран</string>
+    <string name="russian_to_language">Русский → %1$s</string>
+    <string name="pick_language">Вы выбрали: %1$s</string>
+    <string name="arrow_button_back">Назад</string>
+    <string name="translation_error">Ошибка перевода</string>
+</resources>

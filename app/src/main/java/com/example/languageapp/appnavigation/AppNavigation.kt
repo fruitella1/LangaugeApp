@@ -1,11 +1,13 @@
 package com.example.languageapp.appnavigation
 
-import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -17,36 +19,44 @@ import com.example.languageapp.selectedlanguagescreen.SelectedLanguageScreen
 
 @Composable
 fun AppNavigation() {
-    val bottomBarNavController = rememberNavController()
-    Scaffold(
-        bottomBar = { BottomBarNavigation(bottomBarNavController) },
-        modifier = Modifier.background(Color.LightGray)
-    ) { paddingValues ->
+    val appNavController = rememberNavController()
+    val bottomBarHeight = 110.dp
+    Box {
         NavHost(
-            navController = bottomBarNavController,
+            navController = appNavController,
             startDestination = HOME_SCREEN,
-            modifier = Modifier.padding(paddingValues)
+            modifier = Modifier.padding(bottom = bottomBarHeight)
         ) {
-            composable(HOME_SCREEN) {
+            composable(route = HOME_SCREEN) {
                 HomeScreen()
             }
 
-            composable(LANGUAGE_SCREEN) {
-                LanguageScreen(bottomBarNavController)
+            composable(route = LANGUAGE_SCREEN) {
+                LanguageScreen(appNavController)
             }
+
             composable(
-                "$SELECTED_LANGUAGE_SCREEN/{$SELECTED_LANGUAGE}",
-                arguments = listOf(navArgument(SELECTED_LANGUAGE) { type = NavType.StringType })
+                route = SELECTED_LANGUAGE_ROUTE,
+                arguments = listOf(navArgument(SELECTED_LANGUAGE_NAV_ARGUMENT) { type = NavType.StringType })
             ) { backStackEntry ->
                 val selectedLanguage =
-                    backStackEntry.arguments?.getString(SELECTED_LANGUAGE) ?: "Unknown"
-                SelectedLanguageScreen(selectedLanguage, bottomBarNavController)
+                    backStackEntry.arguments?.getString(SELECTED_LANGUAGE_NAV_ARGUMENT).orEmpty()
+                SelectedLanguageScreen(selectedLanguage, appNavController)
             }
         }
+
+        BottomBarNavigation(
+            navController = appNavController,
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.BottomStart)
+                .height(bottomBarHeight)
+        )
     }
 }
 
 const val LANGUAGE_SCREEN = "LanguageScreen"
 const val HOME_SCREEN = "HomeScreen"
 const val SELECTED_LANGUAGE_SCREEN = "SelectedLanguageScreen"
-const val SELECTED_LANGUAGE = "selectedLanguage"
+const val SELECTED_LANGUAGE_NAV_ARGUMENT = "SelectedLanguageNavArgument"
+const val SELECTED_LANGUAGE_ROUTE = "$SELECTED_LANGUAGE_SCREEN/${SELECTED_LANGUAGE_NAV_ARGUMENT}"
