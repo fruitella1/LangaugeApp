@@ -1,8 +1,8 @@
-package com.example.languageapp.common
+package com.example.crypto.preferenes
 
 import android.content.Context
 import androidx.core.content.edit
-import com.example.languageapp.cryptomanager.EncryptedData
+import com.example.crypto.cryptomanager.EncryptedData
 import android.util.Base64
 
 class SharedPreferencesHelper(private val context: Context) {

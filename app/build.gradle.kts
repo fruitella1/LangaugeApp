@@ -38,6 +38,9 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:api"))
+    implementation(project(":core:crypto"))
+    implementation(project(":core"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

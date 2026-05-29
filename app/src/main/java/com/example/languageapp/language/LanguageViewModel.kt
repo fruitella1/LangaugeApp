@@ -2,14 +2,17 @@ package com.example.languageapp.language
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.api.RetrofitInstance
+import com.example.crypto.cryptomanager.CryptoManager
+import com.example.crypto.cryptomanager.KeyEncryption
+import com.example.crypto.preferenes.SharedPreferencesHelper
+import com.example.crypto.cryptomanager.TRANSLATION_KEY
+import com.example.crypto.cryptomanager.LANGUAGE_KEY
+import com.example.api.TranslationRequest
 import com.example.languageapp.R
-import com.example.languageapp.common.SharedPreferencesHelper
-import com.example.languageapp.cryptomanager.CryptoManager
 import com.example.languageapp.language.arch.LanguageAction
 import com.example.languageapp.language.arch.LanguageItem
 import com.example.languageapp.language.arch.LanguageState
-import com.example.languageapp.languageApi.RetrofitInstance
-import com.example.languageapp.languageApi.TranslationRequest
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -74,7 +77,7 @@ internal class LanguageViewModel(
 
                 translationDelayJob?.cancel()
                 translationDelayJob = viewModelScope.launch {
-                    delay(DELAY)
+                    delay(_state.value.translationDelay)
                     textTranslation()
                 }
             }
@@ -150,4 +153,3 @@ internal class LanguageViewModel(
         }
     }
 }
-private const val  DELAY = 1000.toLong()

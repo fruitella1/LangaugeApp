@@ -1,4 +1,4 @@
-package com.example.languageapp.cryptomanager
+package com.example.crypto.cryptomanager
 
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
@@ -8,7 +8,7 @@ import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
 import javax.crypto.spec.IvParameterSpec
 
-internal class CryptoManager {
+class CryptoManager {
     private val keyStore = KeyStore.getInstance(ANDROID_KEY_STORE).apply {
         load(null)
     }

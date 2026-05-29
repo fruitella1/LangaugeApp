@@ -5,7 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.example.languageapp.appnavigation.AppNavigation
-import com.example.languageapp.language.KeyEncryption
+import com.example.crypto.cryptomanager.KeyEncryption
 import com.example.languageapp.ui.theme.MyApplicationTheme
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
