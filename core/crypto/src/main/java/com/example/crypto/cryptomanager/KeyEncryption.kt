@@ -1,9 +1,8 @@
-package com.example.languageapp.language
+package com.example.crypto.cryptomanager
 
-import com.example.languageapp.common.SharedPreferencesHelper
-import com.example.languageapp.cryptomanager.CryptoManager
+import com.example.crypto.preferenes.SharedPreferencesHelper
 
-internal class KeyEncryption(private val preferencesHelper: SharedPreferencesHelper) {
+class KeyEncryption(private val preferencesHelper: SharedPreferencesHelper) {
     val cryptoManager = CryptoManager()
 
     fun encryptAndSave() {

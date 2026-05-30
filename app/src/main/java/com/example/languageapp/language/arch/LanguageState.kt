@@ -11,7 +11,8 @@ data class LanguageState(
     val textToTranslate: String = "",
     val languageSelectedCode: String = "",
     val translatedText: String = "",
-    val errorId: Int? = null
+    val errorId: Int? = null,
+    val translationDelay: Long = 1000
 )
 
 @Immutable

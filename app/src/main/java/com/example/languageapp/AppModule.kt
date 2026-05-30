@@ -1,10 +1,10 @@
 package com.example.languageapp
 
-import com.example.languageapp.common.SharedPreferencesHelper
-import com.example.languageapp.cryptomanager.CryptoManager
-import com.example.languageapp.language.KeyEncryption
+import com.example.api.RetrofitInstance
+import com.example.crypto.cryptomanager.CryptoManager
+import com.example.crypto.cryptomanager.KeyEncryption
+import com.example.crypto.preferenes.SharedPreferencesHelper
 import com.example.languageapp.language.LanguageViewModel
-import com.example.languageapp.languageApi.RetrofitInstance
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 

@@ -1,4 +1,4 @@
-package com.example.languageapp.languageApi
+package com.example.api
 
 import retrofit2.http.Body
 import retrofit2.http.GET

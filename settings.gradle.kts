@@ -21,4 +21,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "Language App"
 include(":app")
- 
+include(":core")
+include(":core:api")
+include(":core:crypto")
